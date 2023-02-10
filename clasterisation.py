@@ -1,17 +1,18 @@
 from scipy.cluster.hierarchy import dendrogram, linkage, fcluster
 import matplotlib.pyplot as pl
 from sklearn.cluster import KMeans
-
 from creating_datasets import return_lst_of_frames
 from dendrogramm_writer import return_dataframe
 
 
+# функция посторения дендрограмм для выбора кол-ва кластеров
 def build_dendrogram():
     link = linkage(return_dataframe(return_lst_of_frames()[7][0]), 'ward')
     dn = dendrogram(link)
     pl.savefig("data/dendrograms/dendrogram_7.jpg")
 
 
+# функция посторения "локтя" для выбора кол-ва кластеров
 def build_elbow():
     for frame, _ in return_lst_of_frames():
         df = return_dataframe(frame)
@@ -25,6 +26,7 @@ def build_elbow():
         pl.savefig(f'elbow_method_{frame}.jpg')
 
 
+# присваивание каждому значеню кластера
 def count_clusters():
     for i in range(len(return_lst_of_frames())):
         df = return_dataframe(return_lst_of_frames()[i][0])
@@ -33,6 +35,7 @@ def count_clusters():
         print(df.groupby('cluster_alg').size())
 
 
+# тоже присваивание кластеров через k_means
 def build_k_means_model():
     for frame, _ in return_lst_of_frames():
         df = return_dataframe(frame)
